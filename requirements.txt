@@ -1,0 +1,5 @@
+googletrans==2.4.0
+#js2xml==0.2.1
+#extruct==0.1.0
+requests==2.25.1
+Beautifulsoup4==4.0.1

@@ -1,0 +1,13 @@
+setup.py
+project.egg-info/PKG-INFO
+project.egg-info/SOURCES.txt
+project.egg-info/dependency_links.txt
+project.egg-info/entry_points.txt
+project.egg-info/top_level.txt
+testspider/__init__.py
+testspider/items.py
+testspider/middlewares.py
+testspider/pipelines.py
+testspider/settings.py
+testspider/spiders/__init__.py
+testspider/spiders/test_spider.py

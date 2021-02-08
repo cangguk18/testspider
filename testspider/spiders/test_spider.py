@@ -8,8 +8,8 @@ import requests
 class testSpider(scrapy.Spider):
     name = 'test_spider'
     
-    start_urls = ['https://www.kleinlein.de/uk/gebrauchtmaschinen']
-    allowed_domains = ['kleinlein.de']
+    start_urls = ['https://www.burkett.com/used-restaurant-equipment']
+    allowed_domains = ['burkett.com']
     #time.sleep(5)
     #BASE_URL = 'http://www.mhs2000.de'
     #start_urls = ['https://www.secondhand-equipment.com/collections/miscellaneous-1']
@@ -46,16 +46,20 @@ class testSpider(scrapy.Spider):
             
 
     def parse(self, response):
-        category_url = response.xpath('//a[@class="name"]/@href').extract()  
+        category_url = response.xpath('//div/a[@class="btn btn-sm btn-block btn-main"]/@href').extract()  
         for url1 in category_url:
             url_desc = response.urljoin(url1)
             yield scrapy.Request(url=url_desc, callback = self.parse_cat)
 
     def parse_cat(self, response):
-        category_url = response.xpath('//div[@class="actions"]/a[1]/@href').extract()  
+        category_url = response.xpath('//h2[@class="product-name"]/a/@href').extract()  
         for url1 in category_url:
             url_desc = response.urljoin(url1)
             yield scrapy.Request(url=url_desc, callback = self.parse_item)
+        category_url = response.xpath('//div[@class="pages"]/ol/li/a/@href').extract()  
+        for url1 in category_url:
+            url_desc = response.urljoin(url1)
+            yield scrapy.Request(url=url_desc, callback = self.parse_cat)
        
          
         
@@ -166,7 +170,8 @@ class testSpider(scrapy.Spider):
                                      #'//div[@class="post_entry blog"]/h4/text()').extract()
         #Description = response.xpath('//div[@class="elementor-widget-container"]/p[string-length(text()) > 0]/text()').extract()                     
         #Description = response.xpath('//html/body/div[6]/div[2]/div/table/tbody/tr[1]/td/table/tbody/tr/td[3]/strong/text()').extract()
-        #Description = response.xpath('//h1[@class="product_title entry-title"]/text()').extract()
+        Description = response.xpath('//h1[@itemprop="name"]/text()').extract()
+        Reference = Description[Description.find('No.'):]
         #Reference = response.xpath('//font[contains(text(),"Art.Nr")]/following::font[1]/text()').extract()
         Reference = response.xpath('//td[text()="Storage ID"]/following-sibling::td/text()').extract()
         Year = response.xpath('//td[text()="New in"]/following-sibling::td/text()').extract()
@@ -179,11 +184,11 @@ class testSpider(scrapy.Spider):
 
       
 
-        yield {#'description': Description,
+        yield {'description': Description,
                #'model': Model,
                'reference': Reference,
-               'year': Year,
-               #'price': Price,
+               #'year': Year,
+               'price': Price,
                #'image': Img,
                #'URL': response.url,
                'url': Url}

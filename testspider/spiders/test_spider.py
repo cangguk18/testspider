@@ -174,7 +174,7 @@ class testSpider(scrapy.Spider):
         Reference = Description[Description.find('No.'):]
         #Reference = response.xpath('//font[contains(text(),"Art.Nr")]/following::font[1]/text()').extract()
         Reference = response.xpath('//td[text()="Storage ID"]/following-sibling::td/text()').extract()
-        Year = response.xpath('//td[text()="New in"]/following-sibling::td/text()').extract()
+        #Year = response.xpath('//td[text()="New in"]/following-sibling::td/text()').extract()
         #Reference = response.xpath('//a[contains(@href,"c_lot")]/ancestor::li/a/text()').extract()
         #Description = response.xpath('//a[contains(@href,"c_lot")]/ancestor::li/text()').extract()
         #Price = response.xpath('//div[@class="summary entry-summary"]/p/span/bdi/text()').extract()
